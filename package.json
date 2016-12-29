@@ -15,6 +15,7 @@
     "cheerio": "latest",
     "express": "latest",
     "lodash": "^4.17.3",
-    "request": "latest"
+    "request": "latest",
+    "to-markdown":"latest"
   }
 }
