@@ -16,6 +16,8 @@
     "express": "latest",
     "lodash": "^4.17.3",
     "request": "latest",
-    "to-markdown":"latest"
+    "to-markdown":"latest",
+    "iconv-lite":"latest",
+    "bufferhelper":"latest"
   }
 }

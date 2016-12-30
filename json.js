@@ -32,9 +32,14 @@ fs.readFile('zhihu/1.html',function(err,data){
 	if(err) throw err;
 	//var jsonObj=JSON.parse(data); 
 	console.log(data);
-	 var data = data.toString('utf8');
+	 var data = data.toString('utf8');  //将buffer类型的数据流转为utf-8类型的
 	console.log('string', data);
 	var answer=toMarkdown(data);
 	console.log('markdown',answer);
+	console.log(answer.length);
+	fs.appendFile('zhihu/1.md',answer,'utf-8',function(err,data){
+		if(err) throw err;
+		console.log('success');
+	})
 }) ; 
 

@@ -1,21 +1,11 @@
-// var express = require('express');
-// var app = express();
-
-// app.get('/', function (req, res) {
-//   res.send('Hello World!');
-// });
-
-// var server = app.listen(3000, function () {
-//   var host = server.address().address;
-//   var port = server.address().port;
-
-//   console.log('Example app listening at http://%s:%s', host, port);
-// });
 
 var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
+var _=require('lodash');
+var iconv=require('iconv-lite');
+var BufferHelp=require('bufferhelper');
 var app = express();
 
 app.get('/', function(req, res) {
@@ -23,14 +13,12 @@ app.get('/', function(req, res) {
     url = 'http://zhihu.com/';
     request({
         method: 'GET',
-        url: 'https://www.zhihu.com/api/v4/members/zhang-hai-26/publications?include=data%5B*%5D.cover%2Cebook_type%2Ccomment_count%2Cvoteup_count&offset=0&limit=10',
-        form: {
-            method: "GET",
-            _xsrf: '164e9cb390a0664289dde3e92ec751d6' 
-        },
+        gzip:true,
+        url: 'https://www.zhihu.com/api/v4/members/zhang-hai-26/answers?include=data%5B*%5D.is_normal%2Csuggest_edit%2Ccomment_count%2Ccollapsed_counts%2Creviewing_comments_count%2Ccan_comment%2Ccontent%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Crelationship.voting%2Cis_author%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.badge%5B%3F(type%3Dbest_answerer)%5D.topics&offset=20&limit=40&sort_by=created',
         headers: {
            'Content-Type':'application/json',
             'Accept':'*/*',
+            'charset':'utf-8',
             'Accept-Encoding':'gzip, deflate, sdch, br',
             'Accept-Language':'zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-TW;q=0.2',
             'authorization':'Bearer Mi4wQUFBQWdUSWRBQUFBQUlJWmdDTVNDeGNBQUFCaEFsVk5ZUGVMV0FBWVdoVWhTSnZlYUhRb0ZsNVAwb1ppdU1uTlNn|1482975842|3e7ac3d55a45288245cfc010548e839681204b34',
@@ -46,32 +34,33 @@ app.get('/', function(req, res) {
     }, function(error, response, html) {
         if (!error) {
             var $ = cheerio.load(html);
-            console.log(html)
-            var title, release, rating;
-            var json = { title: "", release: "", rating: "" };
-
-            $('.title_wrapper').filter(function() {
-                var data = $(this);
-                title = data.children().first().text().trim();
-                release = data.children().last().children().last().text().trim();
-
-                json.title = title;
-                json.release = release;
+            var data=response.data;  
+            var answer=JSON.stringify(response);
+                answer=answer.toString('utf-8');
+                answer=unescape(answer.replace(/\\u/g, '%u'))
+            //var bufferHelper = new BufferHelper()
+                console.log('real:',answer);
+                answer=new Buffer(answer);
+                //iconv.decode(bufferHelper.toBuffer(),'GBK')
+            fs.appendFile('zhihu/answer.txt',answer,'utf-8',function(err){
+                if(err) throw err;
+                console.log('success');
             })
+            /*
+            _.times(data.length,function(i){
+            var answer=new Buffer(data[i].content);
 
-            $('.ratingValue').filter(function() {
-                var data = $(this);
-                rating = data.text().trim();
+            fs.appendFile('zhihu/'+i+'.html',answer,'utf8',function(err){  
+            if(err) throw err;  
+            console.log('write JSON into ',i,'.html');  
+            });
 
-                json.rating = rating;
             })
+            */
+           
         }
 
-        fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err) {
-            console.log('File successfully written! - Check your project directory for the output.json file');
-        })
-
-        res.send('Check your console!')
+        res.send('你好!')
     })
 })
 
