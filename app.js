@@ -38,6 +38,7 @@ app.get('/', function(req, res) {
             var answer=JSON.stringify(response);
                 answer=answer.toString('utf-8');
                 answer=unescape(answer.replace(/\\u/g, '%u'))
+                answer=answer.replace(/\\/g, '');
             //var bufferHelper = new BufferHelper()
                 console.log('real:',answer);
                 answer=new Buffer(answer);
