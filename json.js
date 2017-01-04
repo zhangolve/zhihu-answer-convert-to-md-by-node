@@ -1,8 +1,15 @@
 var fs=require('fs');
 var _=require('lodash');
 var toMarkdown=require('to-markdown');
-for(var j=0;j<1;j++)
+var dir = './zhihumd';
+
+
+for(var j=0;j<15;j++)
 {
+    if (!fs.existsSync('zhihu/'+j+'.json')){
+           break;
+            }
+
 fs.readFile('zhihu/'+j+'.json',function(err,data){  
     if(err)  
         throw err;  
@@ -49,30 +56,14 @@ fs.readFile('zhihu/'+j+'.json',function(err,data){
             created_time=year+'-'+month+'-'+day +'   '+hours+':'+minutes+':'+seconds;
             var header='title:'+title+'\n'+'date: '+ created_time+' \n' +'categories: 知乎 \n description: '+excerpt +'\n  --- \n ' 
             header=new Buffer(header);
+           if (!fs.existsSync(dir)){
+           fs.mkdirSync(dir);
+            }
+            //如果没有指定目录，创建之
             fs.writeFile('zhihumd/'+title+'.md',header,'utf8',function(err){  
         if(err) throw err;  
         console.log('write JSON into ',i,'.md');  
         });
-            /*
-        title: 我一个自动化本科生怎么就做了前端呢？(5)
-date: 2016-12-28  16:55:49 
-categories: 回忆记忆
-*/
-
-    /*
-    function stripscript(s) 
-{ 
-var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]") 
-var rs = ""; 
-for (var i = 0; i < s.length; i++) { 
-rs = rs+s.substr(i, 1).replace(pattern, ''); 
-} 
-return rs; 
-}
-
-
-    */
-
     	fs.appendFile('zhihumd/'+title+'.md',answer,'utf8',function(err){  
         if(err) throw err;  
         console.log('write JSON into ',i,'.md');  

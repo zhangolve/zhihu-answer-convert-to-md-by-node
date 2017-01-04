@@ -12,12 +12,13 @@
   "author": "zhangolve",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.1.4",
+    "bufferhelper": "latest",
     "cheerio": "latest",
     "express": "latest",
+    "iconv-lite": "latest",
     "lodash": "^4.17.3",
     "request": "latest",
-    "to-markdown":"latest",
-    "iconv-lite":"latest",
-    "bufferhelper":"latest"
+    "to-markdown": "latest"
   }
 }
