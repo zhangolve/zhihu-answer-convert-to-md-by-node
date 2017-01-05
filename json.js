@@ -1,13 +1,15 @@
 const fs = require('fs');
 const _ = require('lodash');
 const toMarkdown = require('to-markdown');
-const dir = './zhihumd';
+const config=require('./config.js');
+
+const dir = `./${config.zhihuId}md`;
 for (let j = 0; j < 15; j++) {
-  if (!fs.existsSync(`lishuhang/${j}.json`)) {
+  if (!fs.existsSync(`${config.zhihuId}/${j}.json`)) {
     break;
   }
 
-  fs.readFile(`lishuhang/${j}.json`, (err, res) => {
+  fs.readFile(`${config.zhihuId}/${j}.json`, (err, res) => {
     if (err) {
       throw err;
     }
@@ -56,11 +58,11 @@ for (let j = 0; j < 15; j++) {
         fs.mkdirSync(dir);
       }
             // 如果没有指定目录，创建之
-      fs.writeFile(`zhihumd/${title}.md`, header, 'utf8', (err) => {
+      fs.writeFile(`${dir}/${title}.md`, header, 'utf8', (err) => {
         if (err) throw err;
         console.log('write JSON into ', i, '.md');
       });
-      fs.appendFile(`zhihumd/${title}.md`, answer, 'utf8', (err) => {
+      fs.appendFile(`${dir}/${title}.md`, answer, 'utf8', (err) => {
         if (err) throw err;
         console.log('write JSON into ', i, '.md');
       });
