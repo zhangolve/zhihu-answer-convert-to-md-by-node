@@ -13,12 +13,24 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.1.4",
-    "bufferhelper": "latest",
-    "cheerio": "latest",
     "express": "latest",
     "iconv-lite": "latest",
     "lodash": "^4.17.3",
     "request": "latest",
     "to-markdown": "latest"
+  },
+   "devDependencies": {
+
+    "eslint": "^3.10.2",
+    "eslint-config-airbnb-base": "^10.0.1",
+    "eslint-plugin-import": "^2.2.0"
+ },
+  "scripts": {
+    "start": "node importjson && node json",
+    "lint": "eslint --ext .js json.js importjson.js",
+    "lint-fix": "eslint --ext .js json.js importjson.js --fix"
+   
   }
+
+
 }
