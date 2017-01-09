@@ -41,6 +41,7 @@ for (let j = 0; j < 50; j++) {
       const excerpt = data[i].excerpt;
 
       let time = `${data[i].created_time}000`;
+
       time = parseInt(time);
       const createdTime = new Date(time);
       const year = createdTime.getFullYear();
@@ -54,20 +55,25 @@ for (let j = 0; j < 50; j++) {
       minutes = (minutes < 10 ? `0${minutes}` : minutes);
       const seconds = '00';
       const formatTime = `${year}-${month}-${day}   ${hours}:${minutes}:${seconds}`;
-      let header = `title:${title}\n` + `date: ${formatTime} \n` + `categories: 知乎 \n description: ${excerpt}\n  --- \n `;
+      const questionId=data[i].question.id;
+      const answerId=data[i].id;
+      let copyRight= `\n\n知乎原文: [${title}](https://www.zhihu.com/question/${questionId}/answer/${answerId})`;
+      let header = `title: ${title}\n` + `date: ${formatTime} \n` + `categories: 知乎 \ndescription:  \n \n---\n\n\n `;
       header = new Buffer(header);
+      copyRight=new Buffer(copyRight);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
             // 如果没有指定目录，创建之
       fs.writeFile(`${dir}/${title}.md`, header, 'utf8', (err) => {
         if (err) throw err;
-        console.log('write JSON into ', i, '.md');
+        //console.log('', i, '.md');
       });
-      fs.appendFile(`${dir}/${title}.md`, answer, 'utf8', (err) => {
+      fs.appendFile(`${dir}/${title}.md`, answer+copyRight, 'utf8', (err) => {
         if (err) throw err;
-        console.log('write JSON into ', i, '.md');
+        //console.log('write JSON into ', i, '.md');
       });
+      
     });
   });
 }
