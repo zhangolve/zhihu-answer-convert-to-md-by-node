@@ -4,7 +4,7 @@ const toMarkdown = require('to-markdown');
 const config=require('./config.js');
 
 const dir = `./${config.zhihuId}md`;
-for (let j = 0; j < 15; j++) {
+for (let j = 0; j < 50; j++) {
   if (!fs.existsSync(`${config.zhihuId}/${j}.json`)) {
     break;
   }
@@ -26,10 +26,12 @@ for (let j = 0; j < 15; j++) {
     _.times(data.length, (i) => {
       let answer = toMarkdown(data[i].content);
       let title = data[i].question.title;
-      const pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
+      const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
       let rs = '';
       for (let k = 0; k < title.length; k++) {
-        rs += title.substr(k, 1).replace(pattern, '');
+       var rs2=title.substr(k,1).replace(/\"/,'');  //使用正则表达式单独去除双引号
+        rs += rs2.replace(pattern, '');
+
       }
 
 
