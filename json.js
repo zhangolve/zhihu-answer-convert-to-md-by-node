@@ -21,10 +21,28 @@ for (let j = 0; j < 50; j++) {
     const length = 0;
 
     const data = jsonObj.data;
-    console.log(data.length);
-
-    _.times(data.length, (i) => {
+     _.times(data.length, (i) => {
       let answer = toMarkdown(data[i].content);
+      let reg=/<noscript>.*?<\/noscript>/g;
+      let reg2=/src="(.*?)"/;
+      let src=answer.match(reg);
+      
+      let imageList=[];
+       if(src!==null)
+      {
+      for(let imageNum=0;imageNum<src.length;imageNum++)
+      {
+        
+        imageList.push(`![](${src[imageNum].match(reg2)[1]})`);  //["src='https://pic4.zhimg.com/5cb36eebd4f43757024147226aa6c4bf_b.jpg'", "https://pic4.zhimg.com/5cb36eebd4f43757024147226aa6c4bf_b.jpg"]
+      }
+     
+      for(let j=0;j<src.length;j++)
+      {
+        answer=answer.replace(src[j],imageList[j]);
+
+      }
+      
+    }
       let title = data[i].question.title;
       const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
       let rs = '';
@@ -77,3 +95,4 @@ for (let j = 0; j < 50; j++) {
     });
   });
 }
+console.log('done!');
