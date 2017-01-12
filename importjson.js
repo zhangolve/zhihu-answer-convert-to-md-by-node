@@ -18,12 +18,12 @@ const headers = {
     DNT: 1,
     Host: 'www.zhihu.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
-    'Cookie': config.Cookie
+    Cookie: config.Cookie,
 };
 console.log('---------start----------------');
 getJson(url);
 
-/*得到json数据，将json数据写入本地文件*/
+/* 得到json数据，将json数据写入本地文件*/
 function getJson(url) {
     request({
         method: 'GET',
@@ -33,12 +33,12 @@ function getJson(url) {
         timeout: 3000,
     }, (error, response, html) => {
         if (!error) {
-            let answer = JSON.stringify(response.body);
+            const answer = JSON.stringify(response.body);
             let answerObj = JSON.parse(answer);
             answerObj = JSON.parse(answerObj);
-            let totals = answerObj.paging.totals;
-            let jsonNum = parseInt(totals / 20) + 1;
-            let urls = [];
+            const totals = answerObj.paging.totals;
+            const jsonNum = parseInt(totals / 20) + 1;
+            const urls = [];
             for (let i = 0; i < jsonNum; i++) {
                 const url = `https://www.zhihu.com/api/v4/members/${zhihuId}/answers?include=data%5B*%5D.is_normal%2Csuggest_edit%2Ccomment_count%2Ccollapsed_counts%2Creviewing_comments_count%2Ccan_comment%2Ccontent%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Crelationship.voting%2Cis_author%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.badge%5B%3F(type%3Dbest_answerer)%5D.topics&offset=${20 * i}&limit=20&sort_by=created`;
                 urls.push(url);
@@ -48,7 +48,7 @@ function getJson(url) {
     });
 }
 
-/*循环写入json数据*/
+/* 循环写入json数据*/
 function loopJson(urls) {
     async.forEachOf(urls, (url, key, callback) => {
         request({
