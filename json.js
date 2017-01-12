@@ -28,8 +28,7 @@ for (let j = 0; j < 50; j++) {
       let src=answer.match(reg);
       
       let imageList=[];
-       if(src!==null)
-      {
+      src=_.compact(src);  //使用lodash ，即便是src为null也能够转为空的数组
       for(let imageNum=0;imageNum<src.length;imageNum++)
       {
         
@@ -42,7 +41,7 @@ for (let j = 0; j < 50; j++) {
 
       }
       
-    }
+ 
       let title = data[i].question.title;
       const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
       let rs = '';
