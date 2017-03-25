@@ -76,6 +76,7 @@ function getJson(url) {
 /* 循环写入json数据*/
 
 
+
 function loopJson(urls) {
     async.forEachOf(urls, (url, key, callback) => {
         request({
@@ -85,6 +86,10 @@ function loopJson(urls) {
             headers,
             timeout: 3000,
         }, (error, response, html) => {
+            if(error)
+            {
+                console.log(error);
+            }
             if (!error) {
               var body=response.body;
               console.log(body);

@@ -26,7 +26,7 @@
     "eslint-plugin-import": "^2.2.0"
  },
   "scripts": {
-    "start": "node importjson && node json",
+    "start": "node weibo",
     "lint": "eslint --ext .js json.js importjson.js",
     "lint-fix": "eslint --ext .js json.js importjson.js --fix"
    
